@@ -17,10 +17,28 @@ include_recipe 'tomcat'
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
 
+host_name = node['cc-webapp']['hostname']
 
 web_app 'webapp' do
   template 'webapp.conf.erb'
-  server_name node['cc-webapp']['hostname']
+  server_name host_name
   server_admin node['cc-webapp']['admin_email']
   ajp_port node['tomcat']['ajp_port']
 end
+
+app_name = node['cc-webapp']['appname']
+webapp_config_dir = '/etc/' + app_name
+
+template node['cc-webapp']['tomcat']['setenv_path'] do
+  source 'setenv.sh.erb'
+  owner node['tomcat']['user']
+  mode '0500'
+  variables(
+      :app_name => app_name,
+      :encryption_key => data_bag_item('credentials', host_name)['properties_encryption_key'],
+      :webapp_config_dir => webapp_config_dir
+  )
+end
+
+
+
