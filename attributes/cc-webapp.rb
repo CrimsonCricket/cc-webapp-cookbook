@@ -1,0 +1,1 @@
+default['cc-webapp']['appname'] = 'my_web_app'
