@@ -26,15 +26,14 @@ web_app 'webapp' do
   ajp_port node['tomcat']['ajp_port']
 end
 
-app_name = node['cc-webapp']['appname']
-webapp_config_dir = '/etc/' + app_name
+webapp_config_dir = '/etc/' + node['cc-webapp']['appname']
 
 template node['cc-webapp']['tomcat']['setenv_path'] do
   source 'setenv.sh.erb'
   owner node['tomcat']['user']
   mode '0500'
   variables(
-      :app_name => app_name,
+      :app_name => node['cc-webapp']['appname'],
       :encryption_key => data_bag_item('credentials', host_name)['properties_encryption_key'],
       :webapp_config_dir => webapp_config_dir
   )
