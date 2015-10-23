@@ -16,3 +16,11 @@ include_recipe 'java'
 include_recipe 'tomcat'
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
+
+
+web_app 'webapp' do
+  template 'webapp.conf.erb'
+  server_name node['cc-webapp']['hostname']
+  server_admin node['cc-webapp']['admin_email']
+  ajp_port node['tomcat']['ajp_port']
+end

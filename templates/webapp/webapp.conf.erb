@@ -12,17 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name 'cc-webapp-cookbook'
-maintainer 'Martijn van der Woud - The Crimson Cricket Internet Services'
-maintainer_email 'martijn@crimsoncricket.nl'
-license 'Apache 2.0'
-description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
-long_description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
-version '1.0.0'
+<VirtualHost *:80>
+	ServerName <%= @params[:server_name] %>
 
-depends 'java'
-depends 'tomcat'
-depends 'apache2'
-depends 'mysql'
-depends 'database'
-depends 'mysql2_chef_gem'
+	ServerAdmin <%= @params[:server_admin] %>
+	DocumentRoot /var/www/html
+
+	<Proxy *>
+		Require all granted
+	</Proxy>
+
+	ProxyPass / ajp://localhost:<%= @params[:ajp_port] %>/
+
+
+	ErrorLog ${APACHE_LOG_DIR}/<%= @params[:server_name] %>-error.log
+	CustomLog ${APACHE_LOG_DIR}/<%= @params[:server_name] %>-access.log combined
+
+
+</VirtualHost>
