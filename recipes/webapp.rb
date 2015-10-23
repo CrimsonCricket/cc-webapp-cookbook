@@ -40,4 +40,34 @@ template node['cc-webapp']['tomcat']['setenv_path'] do
 end
 
 
+directory webapp_config_dir do
+  owner node['tomcat']['user']
+  mode '5500'
+end
+
+database_host_ip = node['cc-webapp']['database']['host_ip']
+database_name = node['cc-webapp']['database']['database_name']
+database_username = node['cc-webapp']['database']['username']
+
+
+template webapp_config_dir + '/persistence.properties' do
+  source 'persistence.properties.erb'
+  owner node['tomcat']['user']
+  mode '0400'
+  variables(
+      :database_host_ip => database_host_ip,
+      :database_name => database_name,
+      :database_username => database_username,
+      :encrypted_password => node['cc-webapp']['database']['encrypted_password']
+  )
+end
+
+template webapp_config_dir + '/log4j.properties' do
+  source node['cc-webapp']['logging']['template']
+  owner node['tomcat']['user']
+  mode '0400'
+end
+
+
+
 

@@ -1,1 +1,10 @@
+default['cc-webapp']['hostname'] = 'localhost'
+default['cc-webapp']['admin_email'] = 'admin@email.com'
 default['cc-webapp']['appname'] = 'my_web_app'
+default['cc-webapp']['tomcat']['setenv_path'] = '/usr/share/tomcat7/bin/setenv.sh'
+default['cc-webapp']['database']['host_ip'] = '127.0.0.1'
+default['cc-webapp']['database']['database_name'] = 'webapp'
+default['cc-webapp']['database']['username'] = 'webapp'
+default['cc-webapp']['database']['encrypted_password'] = 'CHANGE_ME'
+default['cc-webapp']['logging']['template'] = 'log4j.properties.erb'
+
