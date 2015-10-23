@@ -33,7 +33,7 @@ template node['cc-webapp']['tomcat']['setenv_path'] do
   owner node['tomcat']['user']
   mode '0500'
   variables(
-      :app_name => node['cc-webapp']['appname'],
+      :app_name => node['cc-webapp']['appname'].upcase,
       :encryption_key => data_bag_item('credentials', host_name)['properties_encryption_key'],
       :webapp_config_dir => webapp_config_dir
   )
