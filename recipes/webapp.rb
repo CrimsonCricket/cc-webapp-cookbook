@@ -15,7 +15,10 @@
 host_name = node['cc-webapp']['hostname']
 
 if node['cc-webapp']['tomcat']['enable_debugger']
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n'
+  node.override['tomcat']['catalina_options'] =
+      node['tomcat']['catalina_options']
+      + ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address='
+      + node['cc-webapp']['tomcat']['debug_server_ip'] + ':8000'
 end
 
 if node['cc-webapp']['tomcat']['enable_remote_jmx']
@@ -23,7 +26,7 @@ if node['cc-webapp']['tomcat']['enable_remote_jmx']
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.port=9991'
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.authenticate=false'
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.ssl=false'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + host_name
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + node['cc-webapp']['tomcat']['jmx_server_ip']
 end
 
 

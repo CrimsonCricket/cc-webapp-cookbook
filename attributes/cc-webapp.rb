@@ -22,4 +22,6 @@ default['cc-webapp']['database']['username'] = 'webapp'
 default['cc-webapp']['database']['encrypted_password'] = 'CHANGE_ME'
 default['cc-webapp']['logging']['template'] = 'log4j.properties.erb'
 default['cc-webapp']['tomcat']['enable_debugger'] = false
+default['cc-webapp']['tomcat']['debug_server_ip'] = '127.0.0.1'
 default['cc-webapp']['tomcat']['enable_remote_jmx'] = false
+default['cc-webapp']['tomcat']['jmx_server_ip'] = '127.0.0.1'
