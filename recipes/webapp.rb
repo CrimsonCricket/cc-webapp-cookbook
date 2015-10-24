@@ -13,12 +13,20 @@
 # limitations under the License.
 
 host_name = node['cc-webapp']['hostname']
+internal_host_name = node['cc-webapp']['internal_hostname']
+host_ip = node['cc-webapp']['host_ip']
+
+
+hostsfile_entry host_ip do
+  hostname  internal_host_name
+  unique    true
+end
+
 
 if node['cc-webapp']['tomcat']['enable_debugger']
   node.override['tomcat']['catalina_options'] =
       node['tomcat']['catalina_options'] +
-      ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=' +
-      node['cc-webapp']['tomcat']['debug_server_ip'] + ':8000'
+      ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=' + host_ip + ':8000'
 end
 
 if node['cc-webapp']['tomcat']['enable_remote_jmx']
@@ -26,7 +34,7 @@ if node['cc-webapp']['tomcat']['enable_remote_jmx']
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.port=9991'
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.authenticate=false'
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.ssl=false'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + node['cc-webapp']['tomcat']['jmx_server_ip']
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + internal_host_name
 end
 
 
