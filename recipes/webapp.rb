@@ -12,6 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+if node['cc-webapp']['tomcat']['enable_debugger']
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"'
+end
+
+
 include_recipe 'java'
 include_recipe 'tomcat'
 include_recipe 'apache2'
