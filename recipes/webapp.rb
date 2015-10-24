@@ -29,14 +29,6 @@ if node['cc-webapp']['tomcat']['enable_debugger']
       ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=' + host_ip + ':8000'
 end
 
-if node['cc-webapp']['tomcat']['enable_remote_jmx']
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.port=9991'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.authenticate=false'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.ssl=false'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + internal_host_name
-end
-
 
 include_recipe 'java'
 include_recipe 'tomcat'
