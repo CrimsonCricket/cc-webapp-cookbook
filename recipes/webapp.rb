@@ -12,9 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+host_name = node['cc-webapp']['hostname']
 
 if node['cc-webapp']['tomcat']['enable_debugger']
   node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n'
+end
+
+if node['cc-webapp']['tomcat']['enable_remote_jmx']
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Dcom.sun.management.jmxremote'
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Dcom.sun.management.jmxremote.port=9991'
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Dcom.sun.management.jmxremote.authenticate=false'
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Dcom.sun.management.jmxremote.ssl=false'
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Djava.rmi.server.hostname=' + host_name
 end
 
 
@@ -23,7 +32,6 @@ include_recipe 'tomcat'
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
 
-host_name = node['cc-webapp']['hostname']
 
 web_app 'webapp' do
   template 'webapp.conf.erb'
