@@ -63,7 +63,7 @@ template webapp_config_dir + '/persistence.properties' do
 end
 
 template webapp_config_dir + '/log4j.properties' do
-  source node['cc-webapp']['logging']['template']
+  source 'log4j.properties.erb'
   owner node['tomcat']['user']
   mode '0400'
 end
