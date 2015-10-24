@@ -16,9 +16,9 @@ host_name = node['cc-webapp']['hostname']
 
 if node['cc-webapp']['tomcat']['enable_debugger']
   node.override['tomcat']['catalina_options'] =
-      node['tomcat']['catalina_options']
-      + ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address='
-      + node['cc-webapp']['tomcat']['debug_server_ip'] + ':8000'
+      node['tomcat']['catalina_options'] +
+      ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=' +
+      node['cc-webapp']['tomcat']['debug_server_ip'] + ':8000'
 end
 
 if node['cc-webapp']['tomcat']['enable_remote_jmx']
