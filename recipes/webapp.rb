@@ -14,7 +14,7 @@
 
 
 if node['cc-webapp']['tomcat']['enable_debugger']
-  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"'
+  node.override['tomcat']['java_options'] = node['tomcat']['java_options'] + ' -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n'
 end
 
 
