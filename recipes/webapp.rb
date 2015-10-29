@@ -30,6 +30,16 @@ if node['cc-webapp']['tomcat']['enable_debugger']
 end
 
 
+if node['cc-webapp']['tomcat']['enable_remote_jmx']
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote'
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.port=9991'
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.authenticate=false'
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.ssl=false'
+  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + internal_host_name
+end
+
+
+
 include_recipe 'java'
 include_recipe 'tomcat'
 include_recipe 'apache2'
