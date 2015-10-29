@@ -53,6 +53,7 @@ end
 mysql_database_user database_username do
   connection mysql_connection_info
   password database_password
+  host database_host_ip
   action :create
 end
 
@@ -60,6 +61,7 @@ end
 mysql_database_user database_username do
   connection mysql_connection_info
   database_name database_name
+  host database_host_ip
   privileges [:all ]
   action :grant
 end
