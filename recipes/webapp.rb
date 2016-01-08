@@ -38,24 +38,38 @@ if node['cc-webapp']['tomcat']['enable_remote_jmx']
   node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + internal_host_name
 end
 
-
-
 include_recipe 'java'
 include_recipe 'tomcat'
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
 
+
+
 if node['cc-webapp']['enable_ssl']
   include_recipe 'apache2::mod_ssl'
+
+  #make sure to upload the necessary certificate, key and certificate chain in your own recipe
+  web_app 'webapp' do
+    template 'webapp_ssl.conf.erb'
+    server_name host_name
+    server_admin node['cc-webapp']['admin_email']
+    ajp_port node['tomcat']['ajp_port']
+    certificate_file node['cc-webapp']['certificate_file']
+    certificate_key_file node['cc-webapp']['certificate_key_file']
+    certificate_chain_file node['cc-webapp']['certificate_chain_file']
+  end
+
+else
+  web_app 'webapp' do
+    template 'webapp.conf.erb'
+    server_name host_name
+    server_admin node['cc-webapp']['admin_email']
+    ajp_port node['tomcat']['ajp_port']
+  end
+
 end
 
 
-web_app 'webapp' do
-  template 'webapp.conf.erb'
-  server_name host_name
-  server_admin node['cc-webapp']['admin_email']
-  ajp_port node['tomcat']['ajp_port']
-end
 
 webapp_config_dir = '/etc/' + node['cc-webapp']['appname']
 
