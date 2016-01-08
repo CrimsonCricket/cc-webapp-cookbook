@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+host_name = node['cc-webapp']['hostname']
 app_server_name = node['cc-webapp']['app_server_name']
 internal_host_name = node['cc-webapp']['internal_hostname']
 host_ip = node['cc-webapp']['host_ip']
@@ -84,7 +85,7 @@ template node['cc-webapp']['tomcat']['setenv_path'] do
   mode '0500'
   variables(
       :app_name => node['cc-webapp']['appname'].upcase,
-      :encryption_key => data_bag_item('credentials', app_server_name)['properties_encryption_key'],
+      :encryption_key => data_bag_item('credentials', host_name)['properties_encryption_key'],
       :webapp_config_dir => webapp_config_dir
   )
 end
