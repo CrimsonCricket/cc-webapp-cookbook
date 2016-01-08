@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-database_host_ip = node['cc-webapp']['database']['host_ip']
+database_client_host = node['cc-webapp']['database']['client_host']
 database_name = node['cc-webapp']['database']['database_name']
 database_username = node['cc-webapp']['database']['username']
 
@@ -53,7 +53,7 @@ end
 mysql_database_user database_username do
   connection mysql_connection_info
   password database_password
-  host database_host_ip
+  host database_client_host
   action :create
 end
 
@@ -61,7 +61,7 @@ end
 mysql_database_user database_username do
   connection mysql_connection_info
   database_name database_name
-  host database_host_ip
+  host database_client_host
   privileges [:all ]
   action :grant
 end
