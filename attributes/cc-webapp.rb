@@ -14,6 +14,7 @@
 
 default['cc-webapp']['hostname'] = 'localhost'
 default['cc-webapp']['internal_hostname'] = 'localhost'
+default['cc-webapp']['app_server_name'] = 'localhost'
 default['cc-webapp']['host_ip'] = '127.0.0.1'
 default['cc-webapp']['admin_email'] = 'admin@email.com'
 default['cc-webapp']['enable_ssl'] = false

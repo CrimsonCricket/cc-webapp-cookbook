@@ -12,26 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-<VirtualHost *:443>
+<VirtualHost *:80>
+
 	ServerName <%= @params[:server_name] %>
-
-	ServerAdmin <%= @params[:server_admin] %>
-	DocumentRoot /var/www/html
-
-  SSLEngine on
-  SSLCertificateFile <%= @params[:certificate_file] %>
-  SSLCertificateKeyFile <%= @params[:certificate_key_file] %>
-  SSLCertificateChainFile <%= @params[:certificate_chain_file] %>
-
-	<Proxy *>
-		Require all granted
-	</Proxy>
-
-	ProxyPass / ajp://localhost:<%= @params[:ajp_port] %>/
-
-
-	ErrorLog ${APACHE_LOG_DIR}/<%= @params[:server_name] %>-error.log
-	CustomLog ${APACHE_LOG_DIR}/<%= @params[:server_name] %>-access.log combined
-
+  Redirect permanent / https://<%= @params[:server_name] %>/
 
 </VirtualHost>

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-host_name = node['cc-webapp']['hostname']
+app_server_name = node['cc-webapp']['app_server_name']
 internal_host_name = node['cc-webapp']['internal_hostname']
 host_ip = node['cc-webapp']['host_ip']
 
@@ -51,7 +51,7 @@ if node['cc-webapp']['enable_ssl']
   #make sure to upload the necessary certificate, key and certificate chain in your own recipe
   web_app 'webapp' do
     template 'webapp_ssl.conf.erb'
-    server_name host_name
+    server_name app_server_name
     server_admin node['cc-webapp']['admin_email']
     ajp_port node['tomcat']['ajp_port']
     certificate_file node['cc-webapp']['certificate_file']
@@ -59,10 +59,15 @@ if node['cc-webapp']['enable_ssl']
     certificate_chain_file node['cc-webapp']['certificate_chain_file']
   end
 
+  webapp 'webapp_redirect' do
+    template 'webapp_redirect_to_https.conf.erb'
+    server_name app_server_name
+  end
+
 else
   web_app 'webapp' do
     template 'webapp.conf.erb'
-    server_name host_name
+    server_name app_server_name
     server_admin node['cc-webapp']['admin_email']
     ajp_port node['tomcat']['ajp_port']
   end
@@ -79,7 +84,7 @@ template node['cc-webapp']['tomcat']['setenv_path'] do
   mode '0500'
   variables(
       :app_name => node['cc-webapp']['appname'].upcase,
-      :encryption_key => data_bag_item('credentials', host_name)['properties_encryption_key'],
+      :encryption_key => data_bag_item('credentials', app_server_name)['properties_encryption_key'],
       :webapp_config_dir => webapp_config_dir
   )
 end
