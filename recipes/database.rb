@@ -21,7 +21,7 @@ database_password = data_bag_item('credentials', node['cc-webapp']['hostname'])[
 
 mysql_service 'default' do
   version '5.6'
-  bind_address database_host_ip
+  bind_address '0.0.0.0'
   initial_root_password database_root_password
   action [:create, :start]
 end
