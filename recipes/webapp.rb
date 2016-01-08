@@ -59,7 +59,7 @@ if node['cc-webapp']['enable_ssl']
     certificate_chain_file node['cc-webapp']['certificate_chain_file']
   end
 
-  webapp 'webapp_redirect' do
+  web_app 'webapp_redirect' do
     template 'webapp_redirect_to_https.conf.erb'
     server_name app_server_name
   end
