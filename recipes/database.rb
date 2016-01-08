@@ -37,7 +37,7 @@ mysql2_chef_gem 'default' do
 end
 
 
-mysql_connection_info = {:host => database_host_ip,
+mysql_connection_info = {:host => 'localhost',
                          :username => 'root',
                          :password => database_root_password}
 
