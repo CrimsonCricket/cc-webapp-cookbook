@@ -45,6 +45,10 @@ include_recipe 'tomcat'
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
 
+if node['cc-webapp']['enable_ssl']
+  include_recipe 'apache2::mod_ssl'
+end
+
 
 web_app 'webapp' do
   template 'webapp.conf.erb'
