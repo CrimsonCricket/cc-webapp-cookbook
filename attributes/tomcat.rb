@@ -16,3 +16,4 @@ override['tomcat']['deploy_manager_apps'] = false
 override['tomcat']['java_options'] = '-Djava.awt.headless=true -Xmx512m -XX:+UseConcMarkSweepGC -Djava.security.egd=file:/dev/./urandom'
 override['tomcat']['tomcat_auth'] = false
 override['tomcat']['uriencoding'] = 'UTF-8'
+default['tomcat']['ajp_port'] = 8009
