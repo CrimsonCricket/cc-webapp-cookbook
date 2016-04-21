@@ -19,7 +19,6 @@ default['cc-webapp']['host_ip'] = '127.0.0.1'
 default['cc-webapp']['admin_email'] = 'admin@email.com'
 default['cc-webapp']['enable_ssl'] = false
 default['cc-webapp']['appname'] = 'my_web_app'
-default['cc-webapp']['tomcat']['setenv_path'] = '/usr/share/tomcat7/bin/setenv.sh'
 default['cc-webapp']['database']['host_ip'] = '127.0.0.1'
 default['cc-webapp']['database']['client_host'] = '%'
 default['cc-webapp']['database']['database_name'] = 'webapp'
@@ -28,3 +27,5 @@ default['cc-webapp']['database']['encrypted_password'] = 'CHANGE_ME'
 default['cc-webapp']['logging']['template'] = 'log4j.properties.erb'
 default['cc-webapp']['tomcat']['enable_debugger'] = false
 default['cc-webapp']['tomcat']['enable_remote_jmx'] = false
+default['cc-webapp']['tomcat']['ajp_port'] = 8009
+default['cc-webapp']['tomcat']['java_options'] = '-Djava.awt.headless=true -Xmx512m -XX:+UseConcMarkSweepGC -Djava.security.egd=file:/dev/./urandom'

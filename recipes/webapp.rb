@@ -24,26 +24,53 @@ hostsfile_entry host_ip do
 end
 
 
+include_recipe 'java'
+app_name = node['cc-webapp']['appname']
+webapp_config_dir = '/etc/' + node['cc-webapp']['appname']
+tomcat_user = 'tomcat_' + app_name
+
+
+tomcat_install app_name do
+  exclude_manager true
+  exclude_hostmanager true
+end
+
+
+
+environment_variables = {
+    :JAVA_OPTS => node['cc-webapp']['tomcat']['java_options']
+}
+environment_variables[app_name.upcase + '_ENCRYPTION_KEY'] = data_bag_item('credentials', host_name)['properties_encryption_key']
+environment_variables[app_name.upcase + '_LOGGING_CONFIG'] = webapp_config_dir + '/log4j.properties'
+
+catalina_opts = ''
+
 if node['cc-webapp']['tomcat']['enable_debugger']
-  node.override['tomcat']['catalina_options'] =
-      node['tomcat']['catalina_options'] +
-      ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=' + host_ip + ':8000'
+  catalina_opts += ' -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=' + host_ip + ':8000'
 end
 
 
 if node['cc-webapp']['tomcat']['enable_remote_jmx']
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.port=9991'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.authenticate=false'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Dcom.sun.management.jmxremote.ssl=false'
-  node.override['tomcat']['catalina_options'] = node['tomcat']['catalina_options'] + ' -Djava.rmi.server.hostname=' + internal_host_name
+  catalina_opts += ' -Dcom.sun.management.jmxremote'
+  catalina_opts += ' -Dcom.sun.management.jmxremote.port=9991'
+  catalina_opts += ' -Dcom.sun.management.jmxremote.authenticate=false'
+  catalina_opts += ' -Dcom.sun.management.jmxremote.ssl=false'
+  catalina_opts += ' -Djava.rmi.server.hostname=' + internal_host_name
 end
 
-include_recipe 'java'
-include_recipe 'tomcat'
+if catalina_opts != ''
+  environment_variables['CATALINA_OPTS'] = catalina_opts
+end
+
+
+tomcat_service app_name do
+  action :restart
+  env_vars [environment_variables]
+end
+
+
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
-
 
 
 if node['cc-webapp']['enable_ssl']
@@ -54,7 +81,7 @@ if node['cc-webapp']['enable_ssl']
     template 'webapp_ssl.conf.erb'
     server_name app_server_name
     server_admin node['cc-webapp']['admin_email']
-    ajp_port node['tomcat']['ajp_port']
+    ajp_port node['cc-webapp']['tomcat']['ajp_port']
     certificate_file node['cc-webapp']['certificate_file']
     certificate_key_file node['cc-webapp']['certificate_key_file']
     certificate_chain_file node['cc-webapp']['certificate_chain_file']
@@ -70,29 +97,16 @@ else
     template 'webapp.conf.erb'
     server_name app_server_name
     server_admin node['cc-webapp']['admin_email']
-    ajp_port node['tomcat']['ajp_port']
+    ajp_port node['cc-webapp']['tomcat']['ajp_port']
   end
 
 end
 
 
 
-webapp_config_dir = '/etc/' + node['cc-webapp']['appname']
-
-template node['cc-webapp']['tomcat']['setenv_path'] do
-  source 'setenv.sh.erb'
-  owner node['tomcat']['user']
-  mode '0500'
-  variables(
-      :app_name => node['cc-webapp']['appname'].upcase,
-      :encryption_key => data_bag_item('credentials', host_name)['properties_encryption_key'],
-      :webapp_config_dir => webapp_config_dir
-  )
-end
-
 
 directory webapp_config_dir do
-  owner node['tomcat']['user']
+  owner tomcat_user
   mode '5500'
 end
 
@@ -103,7 +117,7 @@ database_username = node['cc-webapp']['database']['username']
 
 template webapp_config_dir + '/persistence.properties' do
   source 'persistence.properties.erb'
-  owner node['tomcat']['user']
+  owner tomcat_user
   mode '0400'
   variables(
       :database_host_ip => database_host_ip,
@@ -115,7 +129,7 @@ end
 
 template webapp_config_dir + '/log4j.properties' do
   source 'log4j.properties.erb'
-  owner node['tomcat']['user']
+  owner tomcat_user
   mode '0400'
 end
 
