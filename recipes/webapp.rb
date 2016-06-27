@@ -64,7 +64,7 @@ end
 
 
 tomcat_service app_name do
-  action :restart
+  action :start
   env_vars [environment_variables]
 end
 
