@@ -64,10 +64,9 @@ end
 
 
 tomcat_service app_name do
-  action :start
+  action [:enable, :start]
   env_vars [environment_variables]
 end
-
 
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
