@@ -18,10 +18,7 @@ internal_host_name = node['cc-webapp']['internal_hostname']
 host_ip = node['cc-webapp']['host_ip']
 
 
-hostsfile_entry host_ip do
-  hostname  internal_host_name
-  unique    true
-end
+include_recipe 'cc-webapp-cookbook::hostsfile_entry'
 
 
 include_recipe 'java'
