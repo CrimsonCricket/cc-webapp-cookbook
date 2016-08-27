@@ -12,10 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-internal_host_name = node['cc-webapp']['internal_hostname']
-host_ip = node['cc-webapp']['host_ip']
+database_root_password = data_bag_item('credentials', node['cc-webapp']['hostname'])['mysql_root_password']
 
-hostsfile_entry host_ip do
-  hostname  internal_host_name
-  unique    true
+mysql_connection_info = {:host => '127.0.0.1',
+                         :username => 'root',
+                         :password => database_root_password}
+
+mysql_database_user 'root' do
+  connection mysql_connection_info
+  password database_root_password
+  host '%'
+  action :grant
 end
