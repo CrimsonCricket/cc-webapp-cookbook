@@ -17,14 +17,8 @@ app_server_name = node['cc-webapp']['app_server_name']
 internal_host_name = node['cc-webapp']['internal_hostname']
 host_ip = node['cc-webapp']['host_ip']
 
-
-include_recipe 'cc-webapp-cookbook::hostsfile_entry'
-
-
-include_recipe 'java'
 app_name = node['cc-webapp']['appname']
 webapp_config_dir = '/etc/' + node['cc-webapp']['appname']
-tomcat_user = 'tomcat_' + app_name
 
 
 tomcat_install app_name do
@@ -32,7 +26,7 @@ tomcat_install app_name do
   exclude_hostmanager true
 end
 
-
+include_recipe 'cc-webapp-cookbook::java_app'
 
 environment_variables = {
     :JAVA_OPTS => node['cc-webapp']['tomcat']['java_options']
@@ -101,33 +95,7 @@ end
 
 
 
-directory webapp_config_dir do
-  owner tomcat_user
-  mode '5500'
-end
 
-database_host_ip = node['cc-webapp']['database']['host_ip']
-database_name = node['cc-webapp']['database']['database_name']
-database_username = node['cc-webapp']['database']['username']
-
-
-template webapp_config_dir + '/persistence.properties' do
-  source 'persistence.properties.erb'
-  owner tomcat_user
-  mode '0400'
-  variables(
-      :database_host_ip => database_host_ip,
-      :database_name => database_name,
-      :database_username => database_username,
-      :encrypted_password => node['cc-webapp']['database']['encrypted_password']
-  )
-end
-
-template webapp_config_dir + '/log4j.properties' do
-  source 'log4j.properties.erb'
-  owner tomcat_user
-  mode '0400'
-end
 
 
 

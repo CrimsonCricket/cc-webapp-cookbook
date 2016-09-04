@@ -30,3 +30,4 @@ default['cc-webapp']['tomcat']['enable_debugger'] = false
 default['cc-webapp']['tomcat']['enable_remote_jmx'] = false
 default['cc-webapp']['tomcat']['ajp_port'] = 8009
 default['cc-webapp']['tomcat']['java_options'] = '-Djava.awt.headless=true -Xmx512m -XX:+UseConcMarkSweepGC -Djava.security.egd=file:/dev/./urandom'
+default['cc-webapp']['application_run_as_user'] = 'tomcat_%{appname}'
