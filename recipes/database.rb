@@ -19,22 +19,11 @@ database_username = node['cc-webapp']['database']['username']
 database_root_password = data_bag_item('credentials', node['cc-webapp']['hostname'])['mysql_root_password']
 database_password = data_bag_item('credentials', node['cc-webapp']['hostname'])['mysql_webapp_password']
 
-mysql_service 'default' do
-  version node['cc-webapp']['database']['mysql_version']
-  bind_address '0.0.0.0'
-  initial_root_password database_root_password
-  action [:create, :start]
-end
+
+include_recipe 'cc-webapp-cookbook::mysql_server'
 
 
-mysql_client 'default' do
-  action :create
-end
 
-
-mysql2_chef_gem 'default' do
-  action :install
-end
 
 
 mysql_connection_info = {:host => '127.0.0.1',

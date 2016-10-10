@@ -12,18 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name 'cc-webapp-cookbook'
-maintainer 'Martijn van der Woud - The Crimson Cricket Internet Services'
-maintainer_email 'martijn@crimsoncricket.nl'
-license 'Apache 2.0'
-description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
-long_description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
-version '4.2.0'
 
-depends 'hostsfile'
-depends 'java'
-depends 'tomcat'
-depends 'apache2'
-depends 'mysql'
-depends 'database'
-depends 'mysql2_chef_gem'
+database_root_password = data_bag_item('credentials', node['cc-webapp']['hostname'])['mysql_root_password']
+
+mysql_service 'default' do
+  version node['cc-webapp']['database']['mysql_version']
+  bind_address '0.0.0.0'
+  initial_root_password database_root_password
+  action [:create, :start]
+end
+
+
+mysql_client 'default' do
+  action :create
+end
+
+
+package 'libmysqlclient-dev'
+
+mysql2_chef_gem 'default' do
+  action :install
+end
+
