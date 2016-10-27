@@ -17,6 +17,7 @@ database_root_password = data_bag_item('credentials', node['cc-webapp']['hostnam
 
 mysql_service 'default' do
   version node['cc-webapp']['database']['mysql_version']
+  package_version node['cc-webapp']['database']['mysql_package_version']
   bind_address '0.0.0.0'
   initial_root_password database_root_password
   action [:create, :start]
@@ -24,6 +25,7 @@ end
 
 
 mysql_client 'default' do
+  package_version node['cc-webapp']['database']['mysql_package_version']
   action :create
 end
 
@@ -31,6 +33,7 @@ end
 package 'libmysqlclient-dev'
 
 mysql2_chef_gem 'default' do
+  provider Chef::Provider::Mysql2ChefGem::MysqlAssumingClientInstalled
   action :install
 end
 

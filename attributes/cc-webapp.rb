@@ -25,6 +25,7 @@ default['cc-webapp']['database']['database_name'] = 'webapp'
 default['cc-webapp']['database']['username'] = 'webapp'
 default['cc-webapp']['database']['encrypted_password'] = 'CHANGE_ME'
 default['cc-webapp']['database']['mysql_version'] = '5.7'
+default['cc-webapp']['database']['mysql_package_version'] = '5.7.16-0ubuntu0.16.04.1'
 default['cc-webapp']['logging']['template'] = 'log4j.properties.erb'
 default['cc-webapp']['tomcat']['enable_debugger'] = false
 default['cc-webapp']['tomcat']['enable_remote_jmx'] = false
