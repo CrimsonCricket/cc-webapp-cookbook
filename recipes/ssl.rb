@@ -15,42 +15,13 @@
 
 host_name = node['cc-webapp']['hostname']
 
-cookbook_file node['cc-webapp']['certificate_file'] do
-  source node['cc-webapp']['certificate_source']
-  cookbook node['cc-webapp']['ssl_sources_cookbook']
-  mode '0644'
-  owner 'root'
-  group 'root'
-end
-
-cookbook_file node['cc-webapp']['certificate_chain_file'] do
-  source node['cc-webapp']['certificate_chain_source']
-  cookbook node['cc-webapp']['ssl_sources_cookbook']
-  mode '0644'
-  owner 'root'
-  group 'root'
-end
-
-group 'ssl-cert' do
-  action :create
-end
-
-
-directory '/etc/ssl/private' do
-  owner 'root'
-  group 'ssl-cert'
-  mode '0710'
-  action :create
-end
-
-
-
-template node['cc-webapp']['certificate_key_file'] do
-  source 'ssl.key.erb'
-  owner 'root'
-  group 'ssl-cert'
-  mode '0640'
-  variables(
-      :key => data_bag_item('credentials', host_name)['ssl_key']
-  )
+ssl_certificate 'ssl' do
+	certificate_file node['cc-webapp']['certificate_file']
+	certificate_source node['cc-webapp']['certificate_source']
+	ssl_sources_cookbook node['cc-webapp']['ssl_sources_cookbook']
+	certificate_chain_file node['cc-webapp']['certificate_chain_file']
+	certificate_chain_source node['cc-webapp']['certificate_chain_source']
+	certificate_key_file node['cc-webapp']['certificate_key_file']
+	ssl_key data_bag_item('credentials', host_name)['ssl_key']
+	action :install
 end
