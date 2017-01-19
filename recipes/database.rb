@@ -34,6 +34,7 @@ mysql_connection_info = {:host => '127.0.0.1',
 
 mysql_database database_name do
   connection mysql_connection_info
+  encoding node['cc-webapp']['database']['encoding']
   action :create
 end
 
