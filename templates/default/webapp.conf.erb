@@ -22,6 +22,9 @@
 		Require all granted
 	</Proxy>
 
+  <% if @params[:enable_web_sockets] -%>
+  ProxyPass <%= @params[:web_sockets_base_path] %>/ ws://localhost:<%= params[:http_connector_port] %><%= @params[:web_sockets_base_path] %>/
+  <% end -%>
 	ProxyPass / ajp://localhost:<%= @params[:ajp_port] %>/
 
 
