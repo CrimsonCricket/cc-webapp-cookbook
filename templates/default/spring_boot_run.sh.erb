@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export JASYPT_ENCRYPTOR_PASSWORD=<%= @properties_encryption_key %>
+export SPRING_CONFIG_LOCATION=<%= @spring_config_location %>
+export LOGGING_CONFIG=<%= @logging_config_file %>
+
+<%= @bin_directory %>/install.sh
+<%= @bin_directory %>/<%= @app_name %>.jar
