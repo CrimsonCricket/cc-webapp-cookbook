@@ -42,3 +42,4 @@ default['cc-webapp']['certificate_chain_file'] = '/etc/ssl/certs/%{appname}_CA.c
 default['cc-webapp']['certificate_chain_source'] = '%{appname}_CA.crt'
 default['cc-webapp']['certificate_key_file'] = '/etc/ssl/private/%{appname}.key'
 default['cc-webapp']['ssl_sources_cookbook'] = 'cc-webapp-cookbook'
+default['cc-webapp']['spring_boot_sources_cookbook'] = 'cc-webapp-cookbook'

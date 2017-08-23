@@ -1,0 +1,4 @@
+#!/bin/bash
+
+chown <%= @application_run_as_user %>:<%= @application_run_as_user %> <%= @bin_directory %>/<%= @app_name %>.jar
+chmod 500 <%= @bin_directory %>/<%= @app_name %>.jar
