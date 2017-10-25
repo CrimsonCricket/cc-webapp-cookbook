@@ -77,7 +77,8 @@ template bin_dir + '/run.sh' do
 		:properties_encryption_key => properties_encryption_key,
 		:bin_directory => bin_dir,
 		:spring_config_location => config_dir + '/',
-		:logging_config_file => config_dir + '/logback-spring.xml'
+		:logging_config_file => config_dir + '/logback-spring.xml',
+		:java_options => node['cc-webapp']['tomcat']['java_options']
 	)
 	sensitive true
 end
