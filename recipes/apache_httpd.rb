@@ -18,6 +18,12 @@ app_server_name = node['cc-webapp']['app_server_name']
 include_recipe 'apache2'
 include_recipe 'apache2::mod_proxy_ajp'
 
+package 'libapache2-mod-security2'
+execute 'a2enmod mod-security' do
+	command '/usr/sbin/a2enmod security2'
+	notifies :restart, 'service[apache2]', :delayed
+end
+
 if node['cc-webapp']['enable_web_sockets']
 	include_recipe 'apache2::mod_proxy_http'
 	include_recipe 'apache2::mod_proxy_wstunnel'
@@ -38,6 +44,8 @@ if node['cc-webapp']['enable_ssl']
 		enable_web_sockets node['cc-webapp']['enable_web_sockets']
 		web_sockets_base_path node['cc-webapp']['web_sockets_base_path']
 		http_connector_port node['cc-webapp']['tomcat']['http_port']
+		request_body_max_bytes node['cc-webapp']['request_body_max_bytes']
+		request_body_no_files_max_bytes node['cc-webapp']['request_body_no_files_max_bytes']
 	end
 
 	web_app 'webapp_redirect' do
@@ -54,6 +62,8 @@ else
 		enable_web_sockets node['cc-webapp']['enable_web_sockets']
 		web_sockets_base_path node['cc-webapp']['web_sockets_base_path']
 		http_connector_port node['cc-webapp']['tomcat']['http_port']
+		request_body_max_bytes node['cc-webapp']['request_body_max_bytes']
+		request_body_no_files_max_bytes node['cc-webapp']['request_body_no_files_max_bytes']
 	end
 
 end
