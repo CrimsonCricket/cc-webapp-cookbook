@@ -23,6 +23,12 @@
   SSLCertificateKeyFile <%= @params[:certificate_key_file] %>
   SSLCertificateChainFile <%= @params[:certificate_chain_file] %>
 
+	SecRuleEngine On
+	SecRequestBodyAccess On
+	SecRequestBodyLimit <%= @params[:request_body_max_bytes] %>
+	SecRequestBodyLimitAction Reject
+	SecRequestBodyNoFilesLimit <%= @params[:request_body_no_files_max_bytes] %>
+
 	<Proxy *>
 		Require all granted
 	</Proxy>

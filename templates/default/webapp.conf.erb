@@ -18,6 +18,12 @@
 	ServerAdmin <%= @params[:server_admin] %>
 	DocumentRoot /var/www/html
 
+	SecRuleEngine On
+	SecRequestBodyAccess On
+	SecRequestBodyLimit <%= @params[:request_body_max_bytes] %>
+	SecRequestBodyLimitAction Reject
+	SecRequestBodyNoFilesLimit <%= @params[:request_body_no_files_max_bytes] %>
+
 	<Proxy *>
 		Require all granted
 	</Proxy>
