@@ -89,7 +89,7 @@ template '/etc/systemd/system/' + app_name + '.service' do
 	source 'spring_boot.service.erb'
 	owner 'root'
 	group 'root'
-	mode '0755'
+	mode '0644'
 	variables(
 		:app_name => app_name,
 		:application_run_as_user => application_run_as_user,
