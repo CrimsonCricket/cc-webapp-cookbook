@@ -22,36 +22,13 @@ database_password = data_bag_item('credentials', node['cc-webapp']['hostname'])[
 
 include_recipe 'cc-webapp-cookbook::mysql_server'
 
-
-
-
-
-mysql_connection_info = {:host => '127.0.0.1',
-                         :username => 'root',
-                         :password => database_root_password}
-
-
-
-mysql_database database_name do
-  connection mysql_connection_info
-  encoding node['cc-webapp']['database']['encoding']
-  action :create
+execute 'create_mysql_database' do
+  command 'mysql -u root -p' + database_root_password + ' -h 127.0.0.1 -e "CREATE SCHEMA IF NOT EXISTS ' + database_name + ' CHARACTER SET = ' +  node['cc-webapp']['database']['encoding'] + '"'
+  sensitive true
 end
 
 
-
-mysql_database_user database_username do
-  connection mysql_connection_info
-  password database_password
-  host database_client_host
-  action :create
-end
-
-
-mysql_database_user database_username do
-  connection mysql_connection_info
-  database_name database_name
-  host database_client_host
-  privileges [:all ]
-  action :grant
+execute 'create_mysql_user' do
+  command 'mysql -u root -p' + database_root_password + ' -h 127.0.0.1 -e "GRANT ALL ON \\`' + database_name + '\\`.* TO \'' + database_username +  '\'@\'' + database_client_host + '\' IDENTIFIED BY \'' + database_password + '\'"'
+  sensitive true
 end

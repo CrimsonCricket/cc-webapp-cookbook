@@ -30,10 +30,3 @@ mysql_client 'default' do
 end
 
 
-package 'libmysqlclient-dev'
-
-mysql2_chef_gem 'default' do
-  provider Chef::Provider::Mysql2ChefGem::MysqlAssumingClientInstalled
-  action :install
-end
-
