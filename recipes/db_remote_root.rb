@@ -14,13 +14,9 @@
 
 database_root_password = data_bag_item('credentials', node['cc-webapp']['hostname'])['mysql_root_password']
 
-mysql_connection_info = {:host => '127.0.0.1',
-                         :username => 'root',
-                         :password => database_root_password}
 
-mysql_database_user 'root' do
-  connection mysql_connection_info
-  password database_root_password
-  host '%'
-  action :grant
+execute 'create_mysql_user' do
+  command 'mysql -u root -p' + database_root_password + ' -h 127.0.0.1 -e "GRANT ALL ON *.* TO \'root\'@\'%\' IDENTIFIED BY \'' + database_root_password + '\' WITH GRANT OPTION"'
+  sensitive true
 end
+
