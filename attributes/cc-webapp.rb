@@ -32,11 +32,12 @@ default['cc-webapp']['database']['mysql_version'] = '5.7'
 default['cc-webapp']['database']['mysql_package_version'] = '5.7.24-0ubuntu0.16.04.1'
 default['cc-webapp']['database']['encoding'] = 'utf8'
 default['cc-webapp']['logging']['template'] = 'log4j.properties.erb'
+default['cc-webapp']['tomcat']['version'] = '9.0.13'
 default['cc-webapp']['tomcat']['enable_debugger'] = false
 default['cc-webapp']['tomcat']['enable_remote_jmx'] = false
 default['cc-webapp']['tomcat']['ajp_port'] = 8009
 default['cc-webapp']['tomcat']['http_port'] = 8080
-default['cc-webapp']['tomcat']['java_options'] = '-Djava.awt.headless=true -Xmx512m -XX:+UseConcMarkSweepGC -Djava.security.egd=file:/dev/./urandom'
+default['cc-webapp']['tomcat']['java_options'] = '-Djava.awt.headless=true -Xmx512m -Djava.security.egd=file:/dev/./urandom'
 default['cc-webapp']['application_run_as_user'] = 'tomcat_%{appname}'
 default['cc-webapp']['certificate_file'] = '/etc/ssl/certs/%{appname}.crt'
 default['cc-webapp']['certificate_source'] = '%{appname}.crt'

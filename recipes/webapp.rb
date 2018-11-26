@@ -21,6 +21,7 @@ webapp_config_dir = '/etc/' + node['cc-webapp']['appname']
 
 
 tomcat_install app_name do
+	version node['cc-webapp']['tomcat']['version']
 	exclude_manager true
 	exclude_hostmanager true
 end
