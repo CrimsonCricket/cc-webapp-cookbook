@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export JASYPT_ENCRYPTOR_PASSWORD=<%= @properties_encryption_key %>
-export SPRING_CONFIG_LOCATION=<%= @spring_config_location %>
+export SPRING_CONFIG_LOCATION=classpath:/,<%= @spring_config_location %>
 export LOGGING_CONFIG=<%= @logging_config_file %>
 export JAVA_OPTS="<%= @java_options %>"
 
