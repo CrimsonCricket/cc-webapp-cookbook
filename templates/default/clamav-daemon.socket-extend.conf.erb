@@ -1,0 +1,6 @@
+[Socket]
+ListenStream=<%= @ip_address %>:<%= @port_number %>
+SocketUser=clamav
+ListenStream=/var/run/clamav/clamd.ctl
+SocketGroup=clamav
+SocketMode=666

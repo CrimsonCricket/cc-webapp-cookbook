@@ -1,0 +1,11 @@
+[Unit]
+Description=ClamAV daemon startup delay until DB files are present
+
+[Path]
+PathExists=/dev/null
+PathExistsGlob=/var/lib/clamav/main.{c[vl]d,inc}
+PathExistsGlob=/var/lib/clamav/daily.{c[vl]d,inc}
+
+[Install]
+WantedBy=multi-user.target
+Also=clamav-daemon.socket

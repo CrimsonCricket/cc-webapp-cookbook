@@ -1,0 +1,10 @@
+[Unit]
+Description=ClamAV socket startup delay until DB files are present
+
+ConditionPathExistsGlob=/var/lib/clamav/main.{c[vl]d,inc}
+ConditionPathExistsGlob=/var/lib/clamav/daily.{c[vl]d,inc}
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl start clamav-daemon.socket
+RemainAfterExit=true
