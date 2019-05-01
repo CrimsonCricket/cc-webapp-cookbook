@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-override['java']['install_flavor'] = 'openjdk'
-override['java']['jdk_version'] = 11
-override['java']['oracle']['accept_license_agreement'] = true
+default['java']['install_flavor'] = 'adoptopenjdk'
+default['java']['jdk_version'] = 11
+default['java']['adoptopenjdk']['variant'] = 'hotspot'
