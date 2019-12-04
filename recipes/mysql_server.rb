@@ -15,7 +15,7 @@
 
 database_root_password = data_bag_item('credentials', node['cc-webapp']['hostname'])['mysql_root_password']
 
-mysql_service 'default' do
+mysql_service 'webapp' do
   version node['cc-webapp']['database']['mysql_version']
   package_version node['cc-webapp']['database']['mysql_package_version']
   bind_address '0.0.0.0'
