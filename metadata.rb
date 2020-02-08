@@ -18,7 +18,7 @@ maintainer_email 'martijn@crimsoncricket.nl'
 license 'Apache 2.0'
 description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
 long_description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
-version '5.3.2'
+version '5.3.3'
 
 depends 'hostsfile'
 depends 'java'
