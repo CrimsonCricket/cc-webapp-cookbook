@@ -15,6 +15,6 @@
 default['java']['install_flavor'] = 'adoptopenjdk'
 default['java']['jdk_version'] = 11
 default['java']['adoptopenjdk']['variant'] = 'hotspot'
-default['java']['adoptopenjdk']['11']['x86_64']['hotspot']['url'] = 'https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.5%2B10/OpenJDK11U-jdk_x64_linux_hotspot_11.0.5_10.tar.gz'
-default['java']['adoptopenjdk']['11']['x86_64']['hotspot']['checksum'] = '6dd0c9c8a740e6c19149e98034fba8e368fd9aa16ab417aa636854d40db1a161'
+default['java']['adoptopenjdk']['11']['x86_64']['hotspot']['url'] = 'https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.6%2B10/OpenJDK11U-jdk_x64_linux_hotspot_11.0.6_10.tar.gz'
+default['java']['adoptopenjdk']['11']['x86_64']['hotspot']['checksum'] = '330d19a2eaa07ed02757d7a785a77bab49f5ee710ea03b4ee2fa220ddd0feffc'
 
