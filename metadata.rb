@@ -21,7 +21,7 @@ long_description 'Chef recipes for web applications based on Java/Tomcat/Mysql'
 version '5.3.3'
 
 depends 'hostsfile'
-depends 'java'
+depends 'java', '~>6.0'
 depends 'tomcat'
 depends 'apache2', '~>5.2'
 depends 'mysql'
